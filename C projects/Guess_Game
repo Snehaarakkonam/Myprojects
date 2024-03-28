@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    const int MAX_GUESSES = 3;
+    const int MIN_NUMBER = 1;
+    const int MAX_NUMBER = 10;
+    int secret_number;
+    int guess_number;
+    int num_guesses = 0;
+    char play_again;
+
+    srand(time(NULL));
+    secret_number = rand() % (MAX_NUMBER - MIN_NUMBER + 1) + MIN_NUMBER;
+
+    printf("Welcome to the Number Guessing Game!\n");
+    printf("I'm thinking of a number between %d and %d. Can you guess it?\n", MIN_NUMBER, MAX_NUMBER);
+
+    while (num_guesses < MAX_GUESSES) {
+        printf("\nEnter your guess: ");
+        scanf("%d", &guess_number);
+
+        if (guess_number < MIN_NUMBER || guess_number > MAX_NUMBER) {
+            printf("Please enter a number between %d and %d.\n", MIN_NUMBER, MAX_NUMBER);
+            continue;
+        }
+
+        num_guesses++;
+
+        if (guess_number == secret_number) {
+            printf("Congratulations! You guessed the secret number %d in %d attempt(s)!\n", secret_number, num_guesses);
+            break;
+        } else {
+            if (guess_number < secret_number)
+                printf("Too low! ");
+            else
+                printf("Too high! ");
+
+            printf("Try again. Number of remaining guesses: %d\n", MAX_GUESSES - num_guesses);
+        }
+    }
+
+    if (num_guesses == MAX_GUESSES) {
+        printf("Sorry, you have used all your chances. The secret number was: %d\n", secret_number);
+    }
+
+    printf("Do you want to play again? (Y/N): ");
+    scanf(" %c", &play_again);
+
+    if (play_again == 'Y' || play_again == 'y') {
+        main();
+    } else {
+        printf("Thank you for playing! Goodbye.\n");
+    }
+
+    return 0;
+}
